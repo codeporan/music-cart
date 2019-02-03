@@ -70,16 +70,16 @@ class AddProduct extends Component {
       [e.target.name]: e.target.value
     });
   };
-  imagesHandler = img => {
-    const newformdata = {
-      ...this.state.images
-    };
-    newformdata["images"].value = img;
-    newformdata["images"].valid = true;
-    this.setState({
-      images: newformdata
-    });
-  };
+  // imagesHandler = img => {
+  //   const newformdata = {
+  //     ...this.state.images
+  //   };
+  //   newformdata["images"].value = img;
+  //   newformdata["images"].valid = true;
+  //   this.setState({
+  //     images: newformdata
+  //   });
+  // };
   componentDidMount() {
     this.props.getBrands();
     this.props.getWoods();
@@ -105,7 +105,7 @@ class AddProduct extends Component {
       <div>
         <h1>Add Product</h1>
         <form onSubmit={this.submitForm}>
-          <FileUpload imagesHandler={images => this.imagesHandler(images)} />
+          {/* <FileUpload imagesHandler={images => this.imagesHandler(images)} /> */}
           <TextFieldGroup
             type="text"
             name="name"

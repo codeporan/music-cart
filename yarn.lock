@@ -4513,6 +4513,13 @@ mongodb@^3.1.0:
     mongodb-core "3.1.11"
     safe-buffer "^5.1.2"
 
+mongodb@^3.1.13:
+  version "3.1.13"
+  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.1.13.tgz#f8cdcbb36ad7a08b570bd1271c8525753f75f9f4"
+  dependencies:
+    mongodb-core "3.1.11"
+    safe-buffer "^5.1.2"
+
 mongoose-legacy-pluralize@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
