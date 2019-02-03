@@ -3,6 +3,7 @@ const moment = require("moment");
 const _ = require("lodash");
 const SHA = require("crypto-js/sha1");
 const { User } = require("../models/user");
+const { Site } = require("../models/site");
 const RegisterValidator = require("../validation/Register");
 const LoginValidator = require("../validation/Login");
 
@@ -112,4 +113,38 @@ exports.confirmPassword = async (req, res) => {
       });
     }
   );
+};
+
+exports.UpdateProfile = async (req, res) => {
+  await User.findOneAndUpdate(
+    { _id: req.user._id },
+    {
+      $set: req.body
+    },
+    { new: true }
+  );
+  res.status(200).send({
+    success: true
+  });
+};
+
+//=================================
+//              SITE
+//=================================
+
+exports.GetSiteInfo = async (req, res) => {
+  let user = await Site.find();
+  res.status(200).send(site[0].siteInfo);
+};
+
+exports.AddSiteInfo = async (req, res) => {
+  let site = await Site.findOneAndUpdate(
+    { name: "Site" },
+    { $set: { siteInfo: req.body } },
+    { new: true }
+  );
+  res.status(200).send({
+    success: true,
+    siteInfo: site.siteInfo
+  });
 };

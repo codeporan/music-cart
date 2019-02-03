@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/Cellar/yarn/1.7.0/libexec/bin/yarn.js add mongodb
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.7.0/libexec/bin/yarn.js add --dev mocha
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: 4603585984:error:1408F119:SSL routines:ssl3_get_record:decryption failed or bad record mac:../deps/openssl/openssl/ssl/record/ssl3_record.c:469:
+  Error: 4448974272:error:1408F119:SSL routines:ssl3_get_record:decryption failed or bad record mac:../deps/openssl/openssl/ssl/record/ssl3_record.c:469:
 
 npm manifest: 
   {
@@ -25,6 +25,8 @@ npm manifest:
     "scripts": {
       "prod": "node ./start.js",
       "watch": "nodemon ./start.js --ignore public/",
+      "test":"mocha **/*.test.js",
+      "test-watch":"nodemon --exec 'npm test'",
       "start": "concurrently \"npm run watch\" \"npm run assets\" --names \"💻,📦\" --prefix name",
       "assets": "webpack -w --display-max-modules 0",
       "sample": "node ./data/load-sample-data.js",

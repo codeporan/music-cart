@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const { User } = require("../models/user");
 const { Product } = require("../models/product");
-
+const { Payment } = require("../models/payment");
+const async = require("async");
 exports.AddCart = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.query.productId)) {
     return res.status(400).send({ message: "query Product Id is incorrect" });
@@ -72,7 +73,7 @@ exports.removeProductCart = async (req, res) => {
   res.status(200).json({ user, cart });
 };
 
-exports.onSuccessBuy = async (req, res) => {
+exports.onSuccessBuy = (req, res) => {
   let history = [];
   let transactionData = {};
   //user history
@@ -98,21 +99,45 @@ exports.onSuccessBuy = async (req, res) => {
   transactionData.data = req.body.paymentData;
   transactionData.product = history;
 
-  let user = await User.findOneAndUpdate(
+  User.findOneAndUpdate(
     { _id: req.user._id },
-    { $push: { history: history } },
-    { $set: { cart: [] } },
-    {
-      new: true
+    { $push: { history: history }, $set: { cart: [] } },
+    { new: true },
+    (err, user) => {
+      if (err) return res.json({ success: false, err });
+
+      const payment = new Payment(transactionData);
+      payment.save((err, doc) => {
+        if (err) return res.json({ success: false, err });
+        let products = [];
+        doc.product.forEach(item => {
+          products.push({ id: item.id, quantity: item.quantity });
+        });
+
+        async.eachSeries(
+          products,
+          (item, callback) => {
+            Product.update(
+              { _id: item.id },
+              {
+                $inc: {
+                  sold: item.quantity
+                }
+              },
+              { new: false },
+              callback
+            );
+          },
+          err => {
+            if (err) return res.json({ success: false, err });
+            res.status(200).json({
+              success: true,
+              cart: user.cart,
+              cartDetail: []
+            });
+          }
+        );
+      });
     }
-  );
-  let payment = new Payment(transactionData);
-  payment = await payment.save();
-  let products = [];
-  payment.product.forEach(item =>
-    products.push({
-      id: item.id,
-      quantity: item.quantity
-    })
   );
 };

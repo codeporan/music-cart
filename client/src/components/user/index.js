@@ -3,6 +3,7 @@ import MyButton from "../common/button";
 import UserCart from "./admin/cart";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import UserHistoryBlock from "./userhistoryblock";
 const links = [
   {
     name: "My account",
@@ -56,6 +57,14 @@ const UserDashboard = ({ user }) => {
         </div>
         <div className="user_right">
           <UserCart />
+          {user.userData.history ? (
+            <div className="user_nfo_panel">
+              <h1>History Purchase</h1>
+              <div>
+                <UserHistoryBlock products={user.userData.history} />
+              </div>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>

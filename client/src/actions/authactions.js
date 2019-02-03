@@ -130,7 +130,7 @@ export function removeCartItems(id) {
 
 export function onSuccessBuy(data) {
   const request = axios
-    .post(`${PRODUCT_SERVER}/successbuy`, data)
+    .post(`${USER_SERVER}/successbuy`, data)
     .then(response => response.data);
 
   return {

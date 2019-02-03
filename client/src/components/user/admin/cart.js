@@ -67,11 +67,21 @@ class Cart extends Component {
     console.log("transactionCancle");
   };
   transactionSuccess = payment => {
-    console.log(payment);
-    this.setState({
-      showTotal: false,
-      showSuccess: true
-    });
+    this.props
+      .dispatch(
+        onSuccessBuy({
+          cartDetail: this.props.user.cartDetail,
+          paymentData: payment
+        })
+      )
+      .then(() => {
+        if (this.props.user.successBuy) {
+          this.setState({
+            showTotal: false,
+            showSuccess: true
+          });
+        }
+      });
   };
   render() {
     return (

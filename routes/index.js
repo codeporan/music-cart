@@ -63,10 +63,10 @@ router.get(
 router.post("/api/product/shop", productController.ProducToShop);
 
 router.get("/api/productlist", catchErrors(productController.brandbyProduct));
-router.get(
-  "/api/productlist/:id",
-  catchErrors(productController.brandbyProduct)
-);
+// router.get(
+//   "/api/productlist/:id",
+//   catchErrors(productController.brandbyProduct)
+// );
 
 router.get("/api/product/singleproduct/:id", productController.productByid);
 router.delete(
@@ -79,5 +79,5 @@ router.delete(
 //cart
 router.post("/api/users/addToCart", auth, catchErrors(cartController.AddCart));
 router.get("/api/users/removeFromCart", auth, cartController.removeProductCart);
-router.post("/api/users/successbuy", auth, CartController.addtoCart);
+router.post("/api/users/successbuy", auth, cartController.onSuccessBuy);
 module.exports = router;

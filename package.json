@@ -6,6 +6,8 @@
   "scripts": {
     "prod": "node ./start.js",
     "watch": "nodemon ./start.js --ignore public/",
+    "test": "mocha **/*.test.js",
+    "test-watch": "nodemon --exec 'npm test'",
     "start": "concurrently \"npm run watch\" \"npm run assets\" --names \"💻,📦\" --prefix name",
     "assets": "webpack -w --display-max-modules 0",
     "sample": "node ./data/load-sample-data.js",
@@ -14,9 +16,11 @@
   },
   "browserslist": "last 3 versions",
   "dependencies": {
+    "async": "^2.6.1",
     "autoprefixer": "^9.4.5",
     "axios": "^0.18.0",
     "bcrypt": "^3.0.3",
+    "bkash": "^0.3.0",
     "body-parser": "^1.18.3",
     "cloudinary": "^1.13.2",
     "compression": "^1.7.3",
