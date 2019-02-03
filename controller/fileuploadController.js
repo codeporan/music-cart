@@ -4,6 +4,7 @@ const jimp = require("jimp");
 const uuid = require("uuid");
 const fs = require("fs");
 const path = require("path");
+require("dotenv").config({ path: "../variables.env" });
 
 const { Product } = require("../models/product");
 const multerOptions = {

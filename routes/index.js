@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
+const formidable = require("express-formidable");
 const { catchErrors } = require("../handlers/errorHandlers");
 const userController = require("../controller/userController");
 const brandController = require("../controller/brandController");
 const woodController = require("../controller/woodController");
 const productController = require("../controller/productController");
 const cartController = require("../controller/cartController");
-
+const fileUploaderController = require("../controller/fileuploadController");
 const { auth } = require("../middlware/auth");
 const admin = require("../middlware/admin");
 router.post("/api/users/register", catchErrors(userController.Register));
@@ -75,6 +76,36 @@ router.delete(
   admin,
   productController.deleteProduct
 );
+
+//image uploader file 1st  way
+router.post(
+  "/api/v1/uploadimage",
+  auth,
+  admin,
+  formidable(),
+  catchErrors(fileUploaderController.UploadImage)
+);
+router.get(
+  "/api/v1/removeimage",
+  auth,
+  admin,
+  fileUploaderController.removeimage
+);
+//image uploader file 2nd way
+router.post(
+  "/api/v1/uploadfile",
+  auth,
+  admin,
+  fileUploaderController.upload,
+  catchErrors(fileUploaderController.resize)
+);
+router.get(
+  "/api/v1/adminfile",
+  auth,
+  admin,
+  catchErrors(fileUploaderController.getUploadFiles)
+);
+router.get("/api/v1/download/:id", fileUploaderController.getDownloadfile);
 
 //cart
 router.post("/api/users/addToCart", auth, catchErrors(cartController.AddCart));

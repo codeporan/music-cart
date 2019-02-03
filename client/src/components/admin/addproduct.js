@@ -6,12 +6,19 @@ import CustomSelectInput from "../common/CustomSelect";
 import { addProduct, getBrands, getWoods } from "../../actions/productactions";
 import TextFieldGroup from "../common/TextFieldGroup";
 import TextFieldAreaGroup from "../common/TextFieldAreaGroup";
-
+import FileUpload from "./addfileupload";
 class AddProduct extends Component {
   state = {
     name: "",
     description: "",
-    images: [],
+    images: {
+      value: [],
+      validation: { required: false },
+      valid: true,
+      touched: false,
+      validationMessage: "",
+      showLabel: false
+    },
     wood: "",
     brand: "",
     frets: "",
@@ -63,7 +70,16 @@ class AddProduct extends Component {
       [e.target.name]: e.target.value
     });
   };
-
+  imagesHandler = img => {
+    const newformdata = {
+      ...this.state.images
+    };
+    newformdata["images"].value = img;
+    newformdata["images"].valid = true;
+    this.setState({
+      images: newformdata
+    });
+  };
   componentDidMount() {
     this.props.getBrands();
     this.props.getWoods();
@@ -87,7 +103,9 @@ class AddProduct extends Component {
     const shipping = [{ key: "yes", value: true }, { key: "no", value: false }];
     return (
       <div>
+        <h1>Add Product</h1>
         <form onSubmit={this.submitForm}>
+          <FileUpload imagesHandler={images => this.imagesHandler(images)} />
           <TextFieldGroup
             type="text"
             name="name"
