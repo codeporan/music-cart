@@ -4,6 +4,7 @@ const _ = require("lodash");
 const SHA = require("crypto-js/sha1");
 const { User } = require("../models/user");
 const { Site } = require("../models/site");
+const { sendMail } = require("../handlers/mail/mail");
 const RegisterValidator = require("../validation/Register");
 const LoginValidator = require("../validation/Login");
 
@@ -22,6 +23,8 @@ exports.Register = async (req, res) => {
   user.password = await bcrypt.hash(user.password, salt);
   //save database
   await user.save();
+  // send mail from admin to user
+  sendMail(user.name, user.email, null, "welcome");
   res.send(user);
 };
 
@@ -72,17 +75,19 @@ exports.User = async (req, res) => {
 };
 
 //Reset password
-exports.ResetPassword = async (req, res) => {
+exports.ResetPassword = (req, res) => {
   User.findOne({ email: req.body.email }, (err, user) => {
     user.generateResetToken((err, user) => {
       if (err) return res.json({ success: false, err });
+      console.log(user.email);
+      sendMail(user.email, user.name, null, "reset_password");
       return res.json({ success: true });
     });
   });
 };
 
 //confirm password
-exports.confirmPassword = async (req, res) => {
+exports.confirmPassword = (req, res) => {
   var today = moment()
     .startOf("day")
     .valueOf();

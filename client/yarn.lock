@@ -6039,6 +6039,10 @@ react-event-listener@^0.6.2:
     prop-types "^15.6.0"
     warning "^4.0.1"
 
+react-filter-search@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/react-filter-search/-/react-filter-search-1.0.8.tgz#4ffb4ebfcfbd6ddcf36a3922d430f1cc0afdbf94"
+
 react-images@0.5.17:
   version "0.5.17"
   resolved "https://registry.yarnpkg.com/react-images/-/react-images-0.5.17.tgz#6f76fd03b370176bead7d22cec06afe82fe1cec0"

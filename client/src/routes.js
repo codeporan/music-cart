@@ -12,7 +12,9 @@ import MangeCategory from "./components/admin/mangecategorty";
 import AddProduct from "./components/admin/addproduct";
 import ProductDetails from "./components/product/productdetail";
 import UserCart from "./components/user/admin/cart";
-
+import PageNotFound from "./components/pagenotfound";
+import ResetPassword from "./components/reset_user/reset_user";
+import Confimpassword from "./components/reset_user/reset_password";
 const Routes = () => {
   return (
     <div>
@@ -44,6 +46,17 @@ const Routes = () => {
             exact
             component={Auth(MangeCategory, null)}
           />
+          <Route
+            path="/resetpassword"
+            exact
+            component={Auth(ResetPassword, true)}
+          />
+          <Route
+            path="/confimpassword"
+            exact
+            component={Auth(Confimpassword, true)}
+          />
+          <Route component={Auth(PageNotFound)} />
         </Switch>
       </div>
       <Footer />

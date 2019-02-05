@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-// const Product = mongoose.model("product");
 const { Product } = require("../models/product");
 const validateProduct = require("../validation/product");
 
@@ -9,20 +8,6 @@ exports.AddProduct = async (req, res) => {
   let product = new Product(req.body);
   product = await product.save();
   res.send(product);
-};
-
-exports.brandbyProduct = async (req, res) => {
-  // const brand = req.params.id;
-  // const brandQuery = brand || { $exists: true, $ne: [] };
-  // console.log(brandQuery);
-  const brandCategory = await Product.brandlist();
-  console.log(brandCategory);
-  // const ProductPromise = Product.find({ brand: brandQuery });
-  // const [categories, products] = await Promise.all([
-  //   brandCategory,
-  //   ProductPromise
-  // ]);
-  // res.status(200).json({ categories, products });
 };
 
 exports.getProductbySortbyarticle = async (req, res) => {
@@ -92,32 +77,4 @@ exports.ProducToShop = (req, res) => {
         articles
       });
     });
-};
-
-exports.productByid = async (req, res) => {
-  const product = await Product.findOne({ _id: req.params.id })
-    .populate("brand")
-    .populate("wood")
-    .exec();
-  if (!product)
-    return res.status(400).send("The brand with the given ID was not found.");
-  res.send(product);
-};
-exports.deleteProduct = async (req, res) => {
-  const product = await Product.findByIdAndRemove({ _id: req.params.id });
-  if (!product)
-    return res.status(400).send("The brand with the given ID was not found.");
-  res.send(product);
-};
-//optional
-exports.getProductByPrice = async (req, res) => {
-  const product = await Product.find({ price: { $gte: 10, $lte: 100 } })
-    .populate("wood")
-    .populate("brand")
-    .populate("category")
-    .sort()
-    .limit(100)
-    .select({ price: 1, name: 1, description: 1, images: 1, sold: 1 })
-    .exec();
-  res.send(product);
 };

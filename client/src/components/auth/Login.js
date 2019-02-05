@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { login_user } from "../../actions/authactions";
 import TextFieldGroup from "../common/TextFieldGroup";
-
+import { Link } from "react-router-dom";
 class Login extends Component {
   state = {
     email: "",
@@ -53,6 +53,7 @@ class Login extends Component {
           />
 
           <button onClick={event => this.onSubmit(event)}>Log in</button>
+          <Link to="/confirmpassword">forget password</Link>
         </form>
       </div>
     );

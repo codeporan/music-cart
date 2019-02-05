@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
+const moment = require("moment");
 const Schema = mongoose.Schema;
 require("dotenv").config({ path: "../variables.env" });
 const userSchema = new Schema({
@@ -64,6 +66,26 @@ userSchema.statics.findByToken = function(token, cb) {
 
   jwt.verify(token, process.env.SECRET, function(err, decode) {
     user.findOne({ _id: decode, token: token }, function(err, user) {
+      if (err) return cb(err);
+      cb(null, user);
+    });
+  });
+};
+
+//
+userSchema.methods.generateResetToken = function(cb) {
+  var user = this;
+  crypto.randomBytes(20, function(err, buffer) {
+    var token = buffer.toString("hex");
+    const today = moment()
+      .startOf("day")
+      .valueOf();
+    const tomorrow = moment(today)
+      .endOf("day")
+      .valueOf();
+    user.resetToken = token;
+    user.resetTokenExp = tomorrow;
+    user.save(function(err, user) {
       if (err) return cb(err);
       cb(null, user);
     });
