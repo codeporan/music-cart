@@ -20,9 +20,6 @@ exports.Register = async (req, res) => {
   user.password = await bcrypt.hash(user.password, salt);
   //save database
   user = await user.save();
-  // send mail from admin to user
-  console.log(user.name, user.email);
-  sendMail(user.name, user.email, null, "welcome");
   res.send(user);
 };
 
