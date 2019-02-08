@@ -8,7 +8,7 @@ import {
   getCartItems,
   removeCartItems,
   onSuccessBuy
-} from "../../../actions/authactions";
+} from "../../actions/authactions";
 import Paypal from "./paypal";
 class Cart extends Component {
   state = {
@@ -84,6 +84,7 @@ class Cart extends Component {
       });
   };
   render() {
+    console.log(this.props.user.cartDetail);
     return (
       <div className="container">
         <div className="col-md-8">

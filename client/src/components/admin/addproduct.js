@@ -102,7 +102,7 @@ class AddProduct extends Component {
     ];
     const shipping = [{ key: "yes", value: true }, { key: "no", value: false }];
     return (
-      <div>
+      <div className="container">
         <h1>Add Product</h1>
         <form onSubmit={this.submitForm}>
           {/* <FileUpload imagesHandler={images => this.imagesHandler(images)} /> */}

@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const { User } = require("../models/user");
 const { Product } = require("../models/product");
 const { Payment } = require("../models/payment");
-const { sendMail } = require("../handlers/mail/mail");
 const SHA1 = require("crypto-js/sha1");
 const async = require("async");
 exports.AddCart = async (req, res) => {
@@ -140,7 +139,6 @@ exports.onSuccessBuy = (req, res) => {
           },
           err => {
             if (err) return res.json({ success: false, err });
-            // sendMail(user.name, user.email, null, "purchase", transactionData);
             res.status(200).json({
               success: true,
               cart: user.cart,

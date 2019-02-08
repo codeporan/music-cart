@@ -1,10 +1,6 @@
 const bcrypt = require("bcrypt");
-const moment = require("moment");
 const _ = require("lodash");
-const SHA = require("crypto-js/sha1");
 const { User } = require("../models/user");
-const { Site } = require("../models/site");
-const { sendMail } = require("../handlers/mail/mail");
 const RegisterValidator = require("../validation/Register");
 const LoginValidator = require("../validation/Login");
 
@@ -13,7 +9,8 @@ exports.Register = async (req, res) => {
   const { errors, isValid } = RegisterValidator(req.body);
   if (!isValid) return res.status(400).send(errors);
   //Find Existing email if found , show error message
-  let user = await User.findOne({ email: req.body.email });
+  let user;
+  user = await User.findOne({ email: req.body.email });
   errors.email = "User already registered";
   if (user) return res.status(400).send(errors);
   //create new user
@@ -22,8 +19,9 @@ exports.Register = async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
   //save database
-  await user.save();
+  user = await user.save();
   // send mail from admin to user
+  console.log(user.name, user.email);
   sendMail(user.name, user.email, null, "welcome");
   res.send(user);
 };
@@ -71,85 +69,5 @@ exports.User = async (req, res) => {
     history: req.user.history,
     name: req.user.name,
     email: req.user.email
-  });
-};
-
-//Reset password
-exports.ResetPassword = (req, res) => {
-  User.findOne({ email: req.body.email }, (err, user) => {
-    user.generateResetToken((err, user) => {
-      if (err) return res.json({ success: false, err });
-      console.log(user.email);
-      sendMail(user.email, user.name, null, "reset_password");
-      return res.json({ success: true });
-    });
-  });
-};
-
-//confirm password
-exports.confirmPassword = (req, res) => {
-  var today = moment()
-    .startOf("day")
-    .valueOf();
-
-  User.findOne(
-    {
-      resetToken: req.body.resetToken,
-      resetTokenExp: {
-        $gte: today
-      }
-    },
-    (err, user) => {
-      if (!user)
-        return res.json({
-          success: false,
-          message: "Sorry, token bad, generate a new one."
-        });
-
-      user.password = req.body.password;
-      user.resetToken = "";
-      user.resetTokenExp = "";
-
-      user.save((err, doc) => {
-        if (err) return res.json({ success: false, err });
-        return res.status(200).json({
-          success: true
-        });
-      });
-    }
-  );
-};
-
-exports.UpdateProfile = async (req, res) => {
-  await User.findOneAndUpdate(
-    { _id: req.user._id },
-    {
-      $set: req.body
-    },
-    { new: true }
-  );
-  res.status(200).send({
-    success: true
-  });
-};
-
-//=================================
-//              SITE
-//=================================
-
-exports.GetSiteInfo = async (req, res) => {
-  let user = await Site.find();
-  res.status(200).send(site[0].siteInfo);
-};
-
-exports.AddSiteInfo = async (req, res) => {
-  let site = await Site.findOneAndUpdate(
-    { name: "Site" },
-    { $set: { siteInfo: req.body } },
-    { new: true }
-  );
-  res.status(200).send({
-    success: true,
-    siteInfo: site.siteInfo
   });
 };

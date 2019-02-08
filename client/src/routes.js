@@ -11,10 +11,8 @@ import Shop from "./components/Shop/Shop";
 import MangeCategory from "./components/admin/mangecategorty";
 import AddProduct from "./components/admin/addproduct";
 import ProductDetails from "./components/product/productdetail";
-import UserCart from "./components/user/admin/cart";
+import UserCart from "./components/user/cart";
 import PageNotFound from "./components/pagenotfound";
-import ResetPassword from "./components/reset_user/reset_user";
-import Confimpassword from "./components/reset_user/reset_password";
 const Routes = () => {
   return (
     <div>
@@ -29,6 +27,7 @@ const Routes = () => {
           <Route path="/shop" exact component={Auth(Shop, null)} />
           <Route path="/register" exact component={Auth(Register, false)} />
           <Route path="/login" exact component={Auth(RegisterLogin, false)} />
+
           <Route path="/" exact component={Auth(Home, null)} />
           <Route
             path="/admin/product"
@@ -45,16 +44,6 @@ const Routes = () => {
             path="/admin/category"
             exact
             component={Auth(MangeCategory, null)}
-          />
-          <Route
-            path="/resetpassword"
-            exact
-            component={Auth(ResetPassword, true)}
-          />
-          <Route
-            path="/confimpassword"
-            exact
-            component={Auth(Confimpassword, true)}
           />
           <Route component={Auth(PageNotFound)} />
         </Switch>

@@ -1,6 +1,5 @@
 import React from "react";
-import MyButton from "../common/button";
-import UserCart from "./admin/cart";
+import UserCart from "./cart";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import UserHistoryBlock from "./userhistoryblock";

@@ -15,7 +15,7 @@ import {
 } from "./types";
 
 // SERVER ROUTES
-export const PRODUCT_SERVER = "/api/product";
+export const PRODUCT_SERVER = "/api/v1/product";
 
 export function getproductDetails(id) {
   const request = axios

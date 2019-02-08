@@ -30,8 +30,13 @@ class Header extends Component {
         public: false
       },
       {
-        name: "Log in",
+        name: "Register",
         linkTo: "/register",
+        public: true
+      },
+      {
+        name: "Log in",
+        linkTo: "/login",
         public: true
       },
       {
@@ -87,7 +92,7 @@ class Header extends Component {
             list.push(item);
           }
         } else {
-          if (item.name !== "Log in") {
+          if (item.name !== "Log in" && item.name !== "Register") {
             list.push(item);
           }
         }

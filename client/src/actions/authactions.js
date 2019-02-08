@@ -8,14 +8,12 @@ import {
   ADD_TO_CART_USER,
   GET_CART_ITEMS_USER,
   REMOVE_CART_ITEM_USER,
-  ON_SUCCESS_BUY_USER,
-  UPDATE_DATA_USER,
-  CLEAR_UPDATE_USER_DATA
+  ON_SUCCESS_BUY_USER
 } from "./types";
 
 // SERVER ROUTES
-export const USER_SERVER = "/api/users";
-export const PRODUCT_SERVER = "/api/product";
+export const USER_SERVER = "/api/v1/users";
+export const PRODUCT_SERVER = "/api/v1/product";
 export const register_user = (userdata, history) => dispatch => {
   axios
     .post(`${USER_SERVER}/register`, userdata)
@@ -136,22 +134,5 @@ export function onSuccessBuy(data) {
   return {
     type: ON_SUCCESS_BUY_USER,
     payload: request
-  };
-}
-
-export function UpdateUserData(data) {
-  const request = axios
-    .post(`${USER_SERVER}/updateprofile`, data)
-    .then(res => res.data);
-  return {
-    type: UPDATE_DATA_USER,
-    payload: request
-  };
-}
-
-export function clearUpdateUser() {
-  return {
-    type: CLEAR_UPDATE_USER_DATA,
-    payload: ""
   };
 }
